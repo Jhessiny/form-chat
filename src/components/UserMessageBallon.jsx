@@ -37,12 +37,14 @@ const UserMessageBallon = ({
             autoFocus={index + 1 === messages.length}
           />
         )}
-        <button
-          onClick={handleSubmitMsg}
-          disabled={index + 1 < messages.length}
-        >
-          <i className="lni lni-telegram-original"></i>
-        </button>
+        {index < 9 && (
+          <button
+            onClick={handleSubmitMsg}
+            disabled={index + 1 < messages.length}
+          >
+            <i className="lni lni-telegram-original"></i>
+          </button>
+        )}
       </form>
     </div>
   );

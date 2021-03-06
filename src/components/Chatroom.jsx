@@ -66,6 +66,28 @@ function App() {
       });
   }, [userMessages]);
 
+  const handleInputChange = (e) => {
+    const inputName = e.target.name;
+    const currentUser = { ...user };
+    currentUser[inputName] = e.target.value;
+    setUser(currentUser);
+    console.log(currentUser);
+  };
+
+  const handleSubmitMsg = (e) => {
+    e.preventDefault();
+    console.log(messages);
+    const myMsgs = [...messages];
+    const newMsgsIndex = messages.length / 2;
+    myMsgs.push(systenMessages[newMsgsIndex]);
+    myMsgs.push(userMessages[newMsgsIndex]);
+    setMessages(myMsgs);
+  };
+
+  const sendUserData = () => {
+    console.log(user);
+  };
+
   return (
     <div className="App">
       <div className="chat-room">
@@ -83,13 +105,22 @@ function App() {
                   messages={messages}
                   index={index}
                   states={states}
+                  handleInputChange={handleInputChange}
+                  handleSubmitMsg={handleSubmitMsg}
+                  key={"user-msg-" + index}
                 />
               ) : (
-                <SystemMessageBallon msg={msg} user={user} />
+                <SystemMessageBallon
+                  msg={msg}
+                  user={user}
+                  key={"system-msg-" + index}
+                />
               )
             )}
           {messages.length >= 10 && (
-            <button className="save-btn">Salvar</button>
+            <button className="save-btn" onClick={sendUserData}>
+              Salvar
+            </button>
           )}
         </div>
       </div>
