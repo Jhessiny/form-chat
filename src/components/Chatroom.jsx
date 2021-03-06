@@ -34,13 +34,15 @@ function App() {
     "TO",
   ];
   const [messages, setMessages] = useState([]);
+  const [isChatMax, setIsChatMax] = useState(true);
+  const [isChatOpen, setIsChatOpen] = useState(true);
   const [systenMessages, setSystenMessages] = useState([]);
   const [userMessages, setUserMessages] = useState([
     { name: "name", type: "text", placeholder: "Nome e sobrenome" },
     { name: "address", states: [...states], cities: [] },
     { name: "birthday", type: "date", placeholder: "" },
     { name: "email", type: "email", placeholder: "E-mail" },
-    { name: "rating", type: "email", placeholder: "rating" },
+    { name: "rating", type: "number", placeholder: "Rating" },
   ]);
 
   const [user, setUser] = useState({
@@ -66,20 +68,23 @@ function App() {
       });
   }, []);
 
-  const handleInputChange = (e) => {
-    const inputName = e.target.name;
-    const currentUser = { ...user };
-    currentUser[inputName] = e.target.value;
-    setUser(currentUser);
-  };
-
-  const handleSubmitMsg = (e) => {
-    e.preventDefault();
-    const myMsgs = [...messages];
-    const newMsgsIndex = messages.length / 2;
-    myMsgs.push(systenMessages[newMsgsIndex]);
-    myMsgs.push(userMessages[newMsgsIndex]);
-    setMessages(myMsgs);
+  const handleSubmitMsg = (value) => {
+    if (messages.length < 10) {
+      const propName = Object.keys(value)[0];
+      const curUser = { ...user };
+      curUser[propName] = Object.values(value)[0];
+      setUser(curUser);
+      const myMsgs = [...messages];
+      const newMsgsIndex = messages.length / 2;
+      myMsgs.push(systenMessages[newMsgsIndex]);
+      myMsgs.push(userMessages[newMsgsIndex]);
+      setMessages(myMsgs);
+    } else {
+      const curUser = { ...user };
+      curUser.rating = value.target.value;
+      console.log(curUser);
+      setUser(curUser);
+    }
   };
 
   const handleSelectChange = (e, selectType) => {
@@ -87,7 +92,6 @@ function App() {
     currentUser[selectType] = e.target.value;
     setUser(currentUser);
     if (selectType === "state") {
-      console.log("state");
       const userState = e.target.value;
       axios
         .get(
@@ -96,7 +100,6 @@ function App() {
         .then((data) => {
           const userMsgs = [...userMessages];
           userMsgs[1].cities = [...data.data];
-          console.log(userMsgs);
           setUserMessages(userMsgs);
         });
     }
@@ -106,14 +109,25 @@ function App() {
     console.log(user);
   };
 
-  return (
+  return !isChatOpen ? (
+    <button onClick={() => setIsChatOpen(!isChatOpen)}>Open Chat</button>
+  ) : (
     <div className="chat-room">
       <div className="chat-header">
-        <i className="lni lni-minus"></i>
-        <i className="lni lni-close"></i>
+        <i
+          className={isChatMax ? "lni lni-minus" : "lni lni-arrow-top-right"}
+          onClick={() => setIsChatMax(!isChatMax)}
+        ></i>
+        <i
+          className="lni lni-close"
+          onClick={() => setIsChatOpen(!isChatOpen)}
+        ></i>
       </div>
 
-      <div className="chat-body">
+      <div
+        className="chat-body"
+        style={{ display: isChatMax ? "block" : "none" }}
+      >
         {!!messages.length &&
           messages.map((msg, index) =>
             (index + 1) % 2 === 0 ? (
@@ -123,7 +137,6 @@ function App() {
                 index={index}
                 states={states}
                 cities={userMessages[1].cities}
-                handleInputChange={handleInputChange}
                 handleSubmitMsg={handleSubmitMsg}
                 key={"user-msg-" + index}
                 handleSelectChange={handleSelectChange}

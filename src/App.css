@@ -145,6 +145,7 @@ input:disabled::-webkit-input-placeholder {
   border: none;
   margin-left: 5px;
   cursor: pointer;
+  outline: none;
 }
 
 .chat-body .ballon2 button:hover {
