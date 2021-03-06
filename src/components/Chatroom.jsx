@@ -33,7 +33,7 @@ function App() {
     "SP",
     "TO",
   ];
-  const [messages, setMessages] = useState(["oi", "oi"]);
+  const [messages, setMessages] = useState([]);
   const [systenMessages, setSystenMessages] = useState([]);
   const [userMessages, setUserMessages] = useState([
     { name: "name", type: "text", placeholder: "Nome e sobrenome" },
@@ -42,6 +42,15 @@ function App() {
     { name: "email", type: "email", placeholder: "E-mail" },
     { name: "rating", type: "email", placeholder: "rating" },
   ]);
+
+  const [user, setUser] = useState({
+    name: "",
+    city: "",
+    state: "",
+    birthday: "",
+    email: "",
+    rating: "",
+  });
 
   useEffect(() => {
     let mymsgs = [];
@@ -61,17 +70,22 @@ function App() {
     <div className="App">
       <div className="chat-room">
         <div className="chat-header">
-          <p>__</p>
-          <p>X</p>
+          <i className="lni lni-minus"></i>
+          <i className="lni lni-close"></i>
         </div>
 
         <div className="chat-body">
           {!!messages.length &&
             messages.map((msg, index) =>
               (index + 1) % 2 === 0 ? (
-                <UserMessageBallon />
+                <UserMessageBallon
+                  msg={msg}
+                  messages={messages}
+                  index={index}
+                  states={states}
+                />
               ) : (
-                <SystemMessageBallon msg={msg} />
+                <SystemMessageBallon msg={msg} user={user} />
               )
             )}
           {messages.length >= 10 && (

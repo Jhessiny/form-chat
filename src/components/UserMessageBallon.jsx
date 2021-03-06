@@ -1,11 +1,48 @@
 import React from "react";
 
-const UserMessageBallon = () => {
+const UserMessageBallon = ({
+  msg,
+  messages,
+  handleInputChange,
+  handleSubmitMsg,
+  index,
+  states,
+}) => {
+  const formAddress = (
+    <>
+      <select>
+        {states.map((state) => (
+          <option key={state}>Seu estado</option>
+        ))}
+      </select>
+      <select>
+        {states.map((state) => (
+          <option key={state}>cidade</option>
+        ))}
+      </select>
+    </>
+  );
   return (
     <div className="box ballon2">
       <form action="">
-        <input placeholder="input" />
-        <button>send</button>
+        {msg.name === "address" ? (
+          formAddress
+        ) : (
+          <input
+            name={msg.name}
+            type={msg.type}
+            placeholder={msg.placeholder}
+            disabled={index + 1 < messages.length}
+            onChange={(e) => handleInputChange(e)}
+            autoFocus={index + 1 === messages.length}
+          />
+        )}
+        <button
+          onClick={handleSubmitMsg}
+          disabled={index + 1 < messages.length}
+        >
+          <i className="lni lni-telegram-original"></i>
+        </button>
       </form>
     </div>
   );
