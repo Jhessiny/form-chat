@@ -1,38 +1,143 @@
-.App {
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+}
+
+.box {
+  font-size: 14px;
+  width: 250px;
+  margin: 50px 30px;
+  padding: 15px 10px;
   text-align: center;
+  color: #fff;
+  font-family: arial;
+  position: relative;
+  border-radius: 10px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.ballon2:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid #ddd;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #ddd;
+  border-bottom: 10px solid transparent;
+  right: -19px;
+  top: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.ballon2 {
+  right: -30px;
+  background: #ddd;
+  color: #444;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.ballon1 {
+  background: #00bfb6;
+}
+
+.ballon1:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid transparent;
+  border-right: 10px solid #00bfb6;
+  border-top: 10px solid #00bfb6;
+  border-bottom: 10px solid transparent;
+  left: -19px;
+  top: 10px;
+}
+
+.chat-room {
+  width: 350px;
+  margin: auto;
+  position: absolute;
+  bottom: 35px;
+  right: 20px;
+}
+
+.chat-body {
+  height: 600px;
+  margin-bottom: -35px;
+  overflow-y: scroll;
+  background-color: #f0f0f0;
+  box-shadow: -3px 0 3px #ccc, 3px 0 3px #ccc;
+  z-index: 0;
+}
+
+.chat-header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: flex-end;
+  padding: 5px;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background-color: #310861;
+  height: 35px;
+  z-index: 1;
 }
 
-.App-link {
-  color: #61dafb;
+.chat-room ::-webkit-scrollbar {
+  width: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.chat-room ::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+.chat-room ::-webkit-scrollbar-thumb {
+  background: #00bfb6;
+}
+
+.chat-room ::-webkit-scrollbar-thumb:hover {
+  background: #087a75;
+}
+
+input,
+select {
+  background-color: transparent;
+  border: 1px solid #aaa;
+  padding: 5px;
+  outline: none;
+  color: #444;
+}
+
+::-webkit-input-placeholder {
+  color: #444;
+}
+
+input:disabled::-webkit-input-placeholder {
+  color: #bbb;
+}
+
+.chat-body .ballon2 button {
+  background-color: #00bfb6;
+  border-radius: 100%;
+  padding: 6px 8px 6px 5px;
+  border: none;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.chat-body .ballon2 button:hover {
+  background-color: #087a75;
+}
+
+.save-btn {
+  display: block;
+  padding: 10px;
+  width: 90%;
+  margin: 0 auto 30px auto;
+  background-color: #00bfb6;
+  color: #fff;
+  border: none;
 }
