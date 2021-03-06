@@ -7,17 +7,29 @@ const UserMessageBallon = ({
   handleSubmitMsg,
   index,
   states,
+  cities,
+  handleSelectChange,
 }) => {
   const formAddress = (
     <>
-      <select>
+      <select
+        onChange={(e) => handleSelectChange(e, "state")}
+        disabled={index + 1 < messages.length}
+      >
+        <option>Estado</option>
         {states.map((state) => (
-          <option key={state}>Seu estado</option>
+          <option key={state} value={state}>
+            {state}
+          </option>
         ))}
       </select>
-      <select>
-        {states.map((state) => (
-          <option key={state}>cidade</option>
+      <select
+        className="select-city"
+        onChange={(e) => handleSelectChange(e, "city")}
+        disabled={index + 1 < messages.length}
+      >
+        {cities.map((city) => (
+          <option key={city.nome}>{city.nome}</option>
         ))}
       </select>
     </>
@@ -39,6 +51,7 @@ const UserMessageBallon = ({
         )}
         {index < 9 && (
           <button
+            className={msg.name === "address" && "address"}
             onClick={handleSubmitMsg}
             disabled={index + 1 < messages.length}
           >

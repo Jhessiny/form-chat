@@ -10,8 +10,8 @@ body {
 
 .box {
   font-size: 14px;
-  width: 250px;
-  margin: 50px 30px;
+  width: 290px;
+  margin: 50px 25px;
   padding: 15px 10px;
   text-align: center;
   color: #fff;
@@ -57,7 +57,7 @@ body {
 }
 
 .chat-room {
-  width: 350px;
+  width: 380px;
   margin: auto;
   position: absolute;
   bottom: 35px;
@@ -86,6 +86,10 @@ body {
   z-index: 1;
 }
 
+.chat-header i {
+  padding: 5px 10px;
+}
+
 .chat-room ::-webkit-scrollbar {
   width: 10px;
 }
@@ -111,8 +115,23 @@ select {
   color: #444;
 }
 
+input {
+  width: 80%;
+}
+
 ::-webkit-input-placeholder {
   color: #444;
+}
+
+.select-city {
+  max-width: 145px;
+}
+
+input:disabled,
+select:disabled {
+  color: #bbb !important;
+  border: 1px solid #bbb;
+  background-color: transparent;
 }
 
 input:disabled::-webkit-input-placeholder {
@@ -130,6 +149,15 @@ input:disabled::-webkit-input-placeholder {
 
 .chat-body .ballon2 button:hover {
   background-color: #087a75;
+}
+
+.chat-body .ballon2 button:disabled {
+  background-color: #bbb;
+  cursor: default;
+}
+
+.chat-body .ballon2 button i {
+  color: #fff;
 }
 
 .save-btn {
