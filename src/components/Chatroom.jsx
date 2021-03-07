@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import useSound from "use-sound";
+import notification from "../sounds/notification.mp3";
+import typing from "../sounds/typing.mp3";
 import UserMessageBallon from "./UserMessageBallon";
 import SystemMessageBallon from "./SystemMessageBallon";
 
@@ -44,7 +47,6 @@ function App() {
     { name: "email", type: "email", placeholder: "E-mail" },
     { name: "rating", type: "number", placeholder: "Rating" },
   ]);
-
   const [user, setUser] = useState({
     name: "",
     city: "",
@@ -53,6 +55,7 @@ function App() {
     email: "",
     rating: "",
   });
+  const [isTyping, setIstyping] = useState(false);
 
   useEffect(() => {
     let mymsgs = [];
@@ -68,17 +71,26 @@ function App() {
       });
   }, []);
 
+  const [typingSound] = useSound(typing);
+  const [notificationSound] = useSound(notification);
+
   const handleSubmitMsg = (value) => {
     if (messages.length < 10) {
+      typingSound();
+      setIstyping(true);
       const propName = Object.keys(value)[0];
       const curUser = { ...user };
       curUser[propName] = Object.values(value)[0];
       setUser(curUser);
-      const myMsgs = [...messages];
-      const newMsgsIndex = messages.length / 2;
-      myMsgs.push(systenMessages[newMsgsIndex]);
-      myMsgs.push(userMessages[newMsgsIndex]);
-      setMessages(myMsgs);
+      setTimeout(() => {
+        const myMsgs = [...messages];
+        const newMsgsIndex = messages.length / 2;
+        myMsgs.push(systenMessages[newMsgsIndex]);
+        myMsgs.push(userMessages[newMsgsIndex]);
+        setMessages(myMsgs);
+        setIstyping(false);
+        notificationSound();
+      }, 1000);
     } else {
       const curUser = { ...user };
       curUser.rating = value.target.value;
@@ -128,27 +140,30 @@ function App() {
         className="chat-body"
         style={{ display: isChatMax ? "block" : "none" }}
       >
-        {!!messages.length &&
-          messages.map((msg, index) =>
-            (index + 1) % 2 === 0 ? (
-              <UserMessageBallon
-                msg={msg}
-                messages={messages}
-                index={index}
-                states={states}
-                cities={userMessages[1].cities}
-                handleSubmitMsg={handleSubmitMsg}
-                key={"user-msg-" + index}
-                handleSelectChange={handleSelectChange}
-              />
-            ) : (
-              <SystemMessageBallon
-                msg={msg}
-                user={user}
-                key={"system-msg-" + index}
-              />
-            )
-          )}
+        <div className="msgs-wrapper">
+          {!!messages.length &&
+            messages.map((msg, index) =>
+              (index + 1) % 2 === 0 ? (
+                <UserMessageBallon
+                  msg={msg}
+                  messages={messages}
+                  index={index}
+                  states={states}
+                  cities={userMessages[1].cities}
+                  handleSubmitMsg={handleSubmitMsg}
+                  key={"user-msg-" + index}
+                  handleSelectChange={handleSelectChange}
+                />
+              ) : (
+                <SystemMessageBallon
+                  msg={msg}
+                  user={user}
+                  key={"system-msg-" + index}
+                />
+              )
+            )}
+        </div>
+        {isTyping && <div className="box ballon1 digitando">...</div>}
         {messages.length >= 10 && (
           <button className="save-btn" onClick={sendUserData}>
             Salvar
