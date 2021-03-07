@@ -16,13 +16,17 @@ const UserMessageBallon = ({
       case "name":
         console.log(msg.name);
         return yup.object().shape({
-          name: yup.string().required("Campo não pode estar vazio."),
+          name: yup
+            .string()
+            .trim("Campo não pode estar vazio.")
+            .required("Campo não pode estar vazio."),
         });
       case "email":
         console.log(msg.name);
         return yup.object().shape({
           email: yup
             .string()
+            .trim("Campo não pode estar vazio.")
             .email("Email inválido")
             .required("Campo não pode estar vazio."),
         });
@@ -36,10 +40,12 @@ const UserMessageBallon = ({
         console.log(msg.name);
         return yup.object().shape({
           state: yup
-            .date("Formato inválido")
+            .string("Formato inválido")
+            .trim("Campo não pode estar vazio.")
             .required("Campo não pode estar vazio."),
           city: yup
-            .date("Formato inválido")
+            .string("Formato inválido")
+            .trim("Campo não pode estar vazio.")
             .required("Campo não pode estar vazio."),
         });
       default:
@@ -101,9 +107,7 @@ const UserMessageBallon = ({
               <i className="lni lni-telegram-original"></i>
             </button>
           )}
-          <ErrorMessage name={msg.name}>
-            {(msg) => <div>{msg}</div>}
-          </ErrorMessage>
+          <ErrorMessage className="error-msg" component="div" name={msg.name} />
         </Form>
       </Formik>
     </div>
