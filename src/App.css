@@ -6,6 +6,7 @@
 
 body {
   height: 100vh;
+  position: relative;
 }
 
 .box {
@@ -62,6 +63,10 @@ body {
   position: absolute;
   bottom: 35px;
   right: 20px;
+}
+
+div.error-msg + form {
+  background-color: red;
 }
 
 .chat-header {
@@ -138,6 +143,10 @@ input:disabled::-webkit-input-placeholder {
   color: #bbb;
 }
 
+.invalid-input {
+  border: 1px solid red;
+}
+
 .chat-body .ballon2 button {
   background-color: #00bfb6;
   border-radius: 100%;
@@ -193,4 +202,17 @@ input:disabled::-webkit-input-placeholder {
 
 .ballon2:last-of-type {
   margin-bottom: 50px;
+}
+
+.open-btn {
+  background-color: #310861;
+  font-size: 18px;
+  padding: 10px 15px;
+  color: #fff;
+  border: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
 }

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ErrorMessage, Formik, Form, Field } from "formik";
 import * as yup from "yup";
+
+import InputField from "./InputField";
 
 const UserMessageBallon = ({
   msg,
@@ -11,24 +13,27 @@ const UserMessageBallon = ({
   cities,
   handleSelectChange,
 }) => {
+  const [inputError, setInputError] = useState(null);
+
   const validations = () => {
     switch (msg.name) {
       case "name":
-        console.log(msg.name);
+        setInputError(null);
         return yup.object().shape({
           name: yup
-            .string()
+            .string("")
             .trim("Campo não pode estar vazio.")
             .required("Campo não pode estar vazio."),
         });
       case "email":
         console.log(msg.name);
+        setInputError("email");
         return yup.object().shape({
           email: yup
             .string()
-            .trim("Campo não pode estar vazio.")
             .email("Email inválido")
-            .required("Campo não pode estar vazio."),
+            .required("Campo não pode estar vazio.")
+            .trim("Campo não pode estar vazio."),
         });
       case "birthday":
         return yup.object().shape({
@@ -93,13 +98,23 @@ const UserMessageBallon = ({
           {msg.name === "address" ? (
             formAddress
           ) : (
-            <Field
+            // <Field
+            //   className={inputError === msg.name ? "invalid-input" : ""}
+            //   name={msg.name}
+            //   type={msg.type}
+            //   placeholder={msg.placeholder}
+            //   disabled={index + 1 < messages.length}
+            //   autoFocus={index + 1 === messages.length}
+            //   onBlur={msg.name === "rating" ? handleSubmitMsg : () => {}}
+            // />
+            <InputField
               name={msg.name}
+              className={inputError === msg.name ? "invalid-input" : ""}
               type={msg.type}
               placeholder={msg.placeholder}
               disabled={index + 1 < messages.length}
               autoFocus={index + 1 === messages.length}
-              onBlur={msg.name === "rating" ? handleSubmitMsg : ""}
+              onBlur={msg.name === "rating" ? handleSubmitMsg : () => {}}
             />
           )}
           {index < 9 && (
@@ -107,7 +122,9 @@ const UserMessageBallon = ({
               <i className="lni lni-telegram-original"></i>
             </button>
           )}
-          <ErrorMessage className="error-msg" component="div" name={msg.name} />
+          <ErrorMessage component="div" name={msg.name}>
+            {(message) => <div className="error-msg">{message}</div>}
+          </ErrorMessage>
         </Form>
       </Formik>
     </div>

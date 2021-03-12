@@ -122,7 +122,9 @@ function App() {
   };
 
   return !isChatOpen ? (
-    <button onClick={() => setIsChatOpen(!isChatOpen)}>Open Chat</button>
+    <button className="open-btn" onClick={() => setIsChatOpen(!isChatOpen)}>
+      Open Chat
+    </button>
   ) : (
     <div className="chat-room">
       <div className="chat-header">
