@@ -75,6 +75,7 @@ function App() {
   const [notificationSound] = useSound(notification);
 
   const handleSubmitMsg = (value) => {
+    console.log(value);
     if (messages.length < 10) {
       typingSound();
       setIstyping(true);
@@ -100,9 +101,9 @@ function App() {
   };
 
   const handleSelectChange = (e, selectType) => {
-    const currentUser = { ...user };
-    currentUser[selectType] = e.target.value;
-    setUser(currentUser);
+    // const currentUser = { ...user };
+    // currentUser[selectType] = e.target.value;
+    // setUser(currentUser);
     if (selectType === "state") {
       const userState = e.target.value;
       axios

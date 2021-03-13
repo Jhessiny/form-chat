@@ -3,6 +3,7 @@ import { ErrorMessage, Formik, Form, Field } from "formik";
 import * as yup from "yup";
 
 import InputField from "./InputField";
+import Select from "./Select";
 
 const UserMessageBallon = ({
   msg,
@@ -13,12 +14,9 @@ const UserMessageBallon = ({
   cities,
   handleSelectChange,
 }) => {
-  const [inputError, setInputError] = useState(null);
-
   const validations = () => {
     switch (msg.name) {
       case "name":
-        setInputError(null);
         return yup.object().shape({
           name: yup
             .string("")
@@ -26,8 +24,6 @@ const UserMessageBallon = ({
             .required("Campo não pode estar vazio."),
         });
       case "email":
-        console.log(msg.name);
-        setInputError("email");
         return yup.object().shape({
           email: yup
             .string()
@@ -41,56 +37,50 @@ const UserMessageBallon = ({
             .date("Formato inválido")
             .required("Campo não pode estar vazio."),
         });
-      case "addresss":
-        console.log(msg.name);
+      case "address":
+        console.log("address");
         return yup.object().shape({
           state: yup
             .string("Formato inválido")
-            .trim("Campo não pode estar vazio.")
             .required("Campo não pode estar vazio."),
           city: yup
             .string("Formato inválido")
-            .trim("Campo não pode estar vazio.")
             .required("Campo não pode estar vazio."),
         });
       default:
-        console.log(msg.name);
         return yup.object().shape({});
     }
   };
 
   const formAddress = (
     <>
-      <select
-        onChange={(e) => handleSelectChange(e, "state")}
+      <Select
+        handleSelectChange={handleSelectChange}
         disabled={index + 1 < messages.length}
         name="state"
-      >
-        <option>Estado</option>
-        {states.map((state) => (
-          <option key={state} value={state}>
-            {state}
-          </option>
-        ))}
-      </select>
-      <select
+        options={states}
+        label="Estado"
+      />
+      <Select
+        handleSelectChange={handleSelectChange}
         className="select-city"
-        onChange={(e) => handleSelectChange(e, "city")}
         disabled={index + 1 < messages.length}
         name="city"
-      >
-        <option>Cidade</option>
-        {cities.map((city, index) => (
-          <option key={city.nome + "-" + index}>{city.nome}</option>
-        ))}
-      </select>
+        options={cities}
+        label="Cidade"
+      />
+      <ErrorMessage component="div" name="city">
+        {(message) => <div className="error-msg">{message}</div>}
+      </ErrorMessage>
     </>
   );
 
   return (
     <div className="box ballon2">
       <Formik
-        initialValues={{ [msg.name]: "" }}
+        initialValues={
+          msg.name === "address" ? { state: "", city: "" } : { [msg.name]: "" }
+        }
         onSubmit={handleSubmitMsg}
         validationSchema={validations}
       >
@@ -98,18 +88,8 @@ const UserMessageBallon = ({
           {msg.name === "address" ? (
             formAddress
           ) : (
-            // <Field
-            //   className={inputError === msg.name ? "invalid-input" : ""}
-            //   name={msg.name}
-            //   type={msg.type}
-            //   placeholder={msg.placeholder}
-            //   disabled={index + 1 < messages.length}
-            //   autoFocus={index + 1 === messages.length}
-            //   onBlur={msg.name === "rating" ? handleSubmitMsg : () => {}}
-            // />
             <InputField
               name={msg.name}
-              className={inputError === msg.name ? "invalid-input" : ""}
               type={msg.type}
               placeholder={msg.placeholder}
               disabled={index + 1 < messages.length}
