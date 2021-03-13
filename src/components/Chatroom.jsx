@@ -56,6 +56,7 @@ function App() {
     rating: "",
   });
   const [isTyping, setIstyping] = useState(false);
+  const [finishedForm, setFinishedForm] = useState(false);
 
   useEffect(() => {
     let mymsgs = [];
@@ -79,9 +80,11 @@ function App() {
     if (messages.length < 10) {
       typingSound();
       setIstyping(true);
-      const propName = Object.keys(value)[0];
       const curUser = { ...user };
-      curUser[propName] = Object.values(value)[0];
+      Object.keys(value).forEach((userProperty, index) => {
+        console.log(userProperty);
+        curUser[userProperty] = Object.values(value)[index];
+      });
       setUser(curUser);
       setTimeout(() => {
         const myMsgs = [...messages];
@@ -101,9 +104,6 @@ function App() {
   };
 
   const handleSelectChange = (e, selectType) => {
-    // const currentUser = { ...user };
-    // currentUser[selectType] = e.target.value;
-    // setUser(currentUser);
     if (selectType === "state") {
       const userState = e.target.value;
       axios
@@ -120,7 +120,46 @@ function App() {
 
   const sendUserData = () => {
     console.log(user);
+    axios
+      .post(`https://6041700df34cf600173c9dba.mockapi.io/users`, user)
+      .then((data) => {
+        setFinishedForm(true);
+      });
   };
+
+  const chatFormBody = (
+    <>
+      <div className="msgs-wrapper">
+        {!!messages.length &&
+          messages.map((msg, index) =>
+            (index + 1) % 2 === 0 ? (
+              <UserMessageBallon
+                msg={msg}
+                messages={messages}
+                index={index}
+                states={states}
+                cities={userMessages[1].cities}
+                handleSubmitMsg={handleSubmitMsg}
+                key={"user-msg-" + index}
+                handleSelectChange={handleSelectChange}
+              />
+            ) : (
+              <SystemMessageBallon
+                msg={msg}
+                user={user}
+                key={"system-msg-" + index}
+              />
+            )
+          )}
+      </div>
+      ,{isTyping && <div className="box ballon1 digitando">...</div>},
+      {messages.length >= 10 && (
+        <button className="save-btn" onClick={sendUserData}>
+          Salvar
+        </button>
+      )}
+    </>
+  );
 
   return !isChatOpen ? (
     <button className="open-btn" onClick={() => setIsChatOpen(!isChatOpen)}>
@@ -143,34 +182,10 @@ function App() {
         className="chat-body"
         style={{ display: isChatMax ? "block" : "none" }}
       >
-        <div className="msgs-wrapper">
-          {!!messages.length &&
-            messages.map((msg, index) =>
-              (index + 1) % 2 === 0 ? (
-                <UserMessageBallon
-                  msg={msg}
-                  messages={messages}
-                  index={index}
-                  states={states}
-                  cities={userMessages[1].cities}
-                  handleSubmitMsg={handleSubmitMsg}
-                  key={"user-msg-" + index}
-                  handleSelectChange={handleSelectChange}
-                />
-              ) : (
-                <SystemMessageBallon
-                  msg={msg}
-                  user={user}
-                  key={"system-msg-" + index}
-                />
-              )
-            )}
-        </div>
-        {isTyping && <div className="box ballon1 digitando">...</div>}
-        {messages.length >= 10 && (
-          <button className="save-btn" onClick={sendUserData}>
-            Salvar
-          </button>
+        {!finishedForm ? (
+          chatFormBody
+        ) : (
+          <p className="data-sent-message">Formulário enviado com sucesso!</p>
         )}
       </div>
     </div>

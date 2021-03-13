@@ -15,7 +15,9 @@ function Select(props) {
   return (
     <>
       <Field
-        className={`${meta.touched && meta.error ? "invalid-input" : ""}`}
+        className={`${name === "city" && "select-city"} ${
+          meta.touched && meta.error ? "invalid-input" : ""
+        }`}
         as="select"
         id={name}
         name={name}

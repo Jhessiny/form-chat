@@ -7,6 +7,7 @@
 body {
   height: 100vh;
   position: relative;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .box {
@@ -16,7 +17,6 @@ body {
   padding: 15px 10px;
   text-align: center;
   color: #fff;
-  font-family: arial;
   position: relative;
   border-radius: 10px;
 }
@@ -111,8 +111,8 @@ div.error-msg + form {
   background: #087a75;
 }
 
-input,
-select {
+.chat-room input,
+.chat-room select {
   background-color: transparent;
   border: 1px solid #aaa;
   padding: 5px;
@@ -120,7 +120,7 @@ select {
   color: #444;
 }
 
-input {
+.chat-room input {
   width: 80%;
 }
 
@@ -132,14 +132,14 @@ input {
   max-width: 145px;
 }
 
-input:disabled,
-select:disabled {
+.chat-room input:disabled,
+.chat-room select:disabled {
   color: #bbb !important;
   border: 1px solid #bbb;
   background-color: transparent;
 }
 
-input:disabled::-webkit-input-placeholder {
+.chat-room input:disabled::-webkit-input-placeholder {
   color: #bbb;
 }
 
@@ -215,4 +215,12 @@ input:disabled::-webkit-input-placeholder {
   left: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
+}
+
+.data-sent-message {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
 }

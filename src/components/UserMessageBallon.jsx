@@ -47,6 +47,12 @@ const UserMessageBallon = ({
             .string("Formato inválido")
             .required("Campo não pode estar vazio."),
         });
+      case "rating":
+        return yup.object().shape({
+          birthday: yup
+            .number("Formato inválido")
+            .required("Campo não pode estar vazio."),
+        });
       default:
         return yup.object().shape({});
     }
