@@ -19,7 +19,7 @@ const InputField = ({ placeholder, inputError, ratingValue, ...props }) => {
           {...field}
           {...props}
           placeholder={placeholder}
-          className={` ${meta.touched && meta.error ? "invalid-input" : ""}`}
+          className={`${meta.touched && meta.error ? "invalid-input" : ""}`}
         />
       )}
     </>

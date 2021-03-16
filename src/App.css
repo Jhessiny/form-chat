@@ -170,7 +170,7 @@ div.error-msg + form {
   color: #bbb;
 }
 
-.invalid-input {
+.chat-room .invalid-input {
   border: 1px solid red;
 }
 
