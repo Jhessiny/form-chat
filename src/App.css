@@ -117,6 +117,7 @@ div.error-msg + form {
   height: 600px;
   margin-bottom: -35px;
   overflow-y: scroll;
+  overflow-x: hidden;
   background-color: #f0f0f0;
   box-shadow: -3px 0 3px #ccc, 3px 0 3px #ccc;
   z-index: 0;
@@ -269,6 +270,6 @@ div.error-msg + form {
 
 @media (max-width: 350px) {
   .box {
-    width: 210px;
+    width: 180px;
   }
 }
