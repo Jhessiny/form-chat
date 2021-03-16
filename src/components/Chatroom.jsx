@@ -77,15 +77,16 @@ function App() {
 
   const handleSubmitMsg = (value) => {
     console.log(value);
+
+    typingSound();
+    setIstyping(true);
+    const curUser = { ...user };
+    Object.keys(value).forEach((userProperty, index) => {
+      console.log(userProperty);
+      curUser[userProperty] = Object.values(value)[index];
+    });
+    setUser(curUser);
     if (messages.length < 10) {
-      typingSound();
-      setIstyping(true);
-      const curUser = { ...user };
-      Object.keys(value).forEach((userProperty, index) => {
-        console.log(userProperty);
-        curUser[userProperty] = Object.values(value)[index];
-      });
-      setUser(curUser);
       setTimeout(() => {
         const myMsgs = [...messages];
         const newMsgsIndex = messages.length / 2;
@@ -96,11 +97,14 @@ function App() {
         notificationSound();
       }, 1000);
     } else {
-      const curUser = { ...user };
-      curUser.rating = value.target.value;
-      console.log(curUser);
-      setUser(curUser);
+      setIstyping(false);
     }
+    // else {
+    //   const curUser = { ...user };
+    //   curUser.rating = value.target.value;
+    //   console.log(curUser);
+    //   setUser(curUser);
+    // }
   };
 
   const handleSelectChange = (e, selectType) => {
@@ -152,7 +156,7 @@ function App() {
             )
           )}
       </div>
-      ,{isTyping && <div className="box ballon1 digitando">...</div>},
+      {isTyping && <div className="box ballon1 digitando">...</div>}
       {messages.length >= 10 && (
         <button className="save-btn" onClick={sendUserData}>
           Salvar

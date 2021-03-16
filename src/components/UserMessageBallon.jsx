@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import { ErrorMessage, Formik, Form, Field } from "formik";
+import React, { useState } from "react";
+import { ErrorMessage, Formik, Form } from "formik";
 import * as yup from "yup";
 
 import InputField from "./InputField";
 import Select from "./Select";
+import Rating from "./Rating";
 
 const UserMessageBallon = ({
   msg,
@@ -14,6 +15,7 @@ const UserMessageBallon = ({
   cities,
   handleSelectChange,
 }) => {
+  const [selectedStar, setSelectedStar] = useState(null);
   const validations = () => {
     switch (msg.name) {
       case "name":
@@ -47,12 +49,6 @@ const UserMessageBallon = ({
             .string("Formato inválido")
             .required("Campo não pode estar vazio."),
         });
-      case "rating":
-        return yup.object().shape({
-          birthday: yup
-            .number("Formato inválido")
-            .required("Campo não pode estar vazio."),
-        });
       default:
         return yup.object().shape({});
     }
@@ -81,6 +77,11 @@ const UserMessageBallon = ({
     </>
   );
 
+  const handleStarClick = (starNumber) => {
+    setSelectedStar(starNumber);
+    handleSubmitMsg({ rating: starNumber });
+  };
+
   return (
     <div className="box ballon2">
       <Formik
@@ -94,14 +95,22 @@ const UserMessageBallon = ({
           {msg.name === "address" ? (
             formAddress
           ) : (
-            <InputField
-              name={msg.name}
-              type={msg.type}
-              placeholder={msg.placeholder}
-              disabled={index + 1 < messages.length}
-              autoFocus={index + 1 === messages.length}
-              onBlur={msg.name === "rating" ? handleSubmitMsg : () => {}}
-            />
+            <>
+              <InputField
+                name={msg.name}
+                type={msg.type}
+                placeholder={msg.placeholder}
+                disabled={index + 1 < messages.length}
+                autoFocus={index + 1 === messages.length}
+                ratingValue={selectedStar}
+              />
+              {msg.name === "rating" && (
+                <Rating
+                  handleStarClick={handleStarClick}
+                  selectedStar={selectedStar}
+                />
+              )}
+            </>
           )}
           {index < 9 && (
             <button type="submit" disabled={index + 1 < messages.length}>

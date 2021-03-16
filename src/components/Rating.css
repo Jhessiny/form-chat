@@ -1,0 +1,22 @@
+.rating-form {
+  display: flex;
+  padding: 0 0.5rem;
+}
+
+.form-star {
+  font-size: 1.5rem;
+  color: rgb(97, 97, 97);
+  transition: all 0.2s;
+  cursor: pointer;
+  margin-left: 0.3rem;
+}
+.lni:hover {
+  color: rgb(233, 211, 12);
+  transition: all 0.2s;
+}
+.star-box input:hover + label .lni,
+.star-box input:checked + label .lni,
+.lni:hover,
+.star-active {
+  color: rgb(233, 211, 12);
+}

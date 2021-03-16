@@ -25,12 +25,13 @@ function Select(props) {
           handleSelectChange(e, name);
           field.onChange(e);
         }}
+        {...rest}
       >
         <option>{label}</option>
         {options.map((option, index) => {
           const optValue = name === "state" ? option : option.nome;
           return (
-            <option key={`${index}-${option}`} value={optValue} {...rest}>
+            <option key={`${index}-${option}`} value={optValue}>
               {optValue}
             </option>
           );
