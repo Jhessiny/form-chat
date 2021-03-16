@@ -209,7 +209,7 @@ div.error-msg + form {
   padding: 0 0 0 15px;
 }
 
-.digitando {
+.chat-body .digitando {
   position: fixed;
   bottom: 0;
   width: 100px;
@@ -254,4 +254,19 @@ div.error-msg + form {
 
 .rating-input {
   display: none;
+}
+
+@media (max-width: 450px) {
+  .chat-room {
+    width: 90%;
+  }
+  .box {
+    width: 78%;
+  }
+}
+
+@media (max-width: 450px) {
+  .box {
+    width: 75%;
+  }
 }
