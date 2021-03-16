@@ -77,9 +77,6 @@ function App() {
 
   const handleSubmitMsg = (value) => {
     console.log(value);
-
-    typingSound();
-    setIstyping(true);
     const curUser = { ...user };
     Object.keys(value).forEach((userProperty, index) => {
       console.log(userProperty);
@@ -87,6 +84,8 @@ function App() {
     });
     setUser(curUser);
     if (messages.length < 10) {
+      typingSound();
+      setIstyping(true);
       setTimeout(() => {
         const myMsgs = [...messages];
         const newMsgsIndex = messages.length / 2;
@@ -99,12 +98,6 @@ function App() {
     } else {
       setIstyping(false);
     }
-    // else {
-    //   const curUser = { ...user };
-    //   curUser.rating = value.target.value;
-    //   console.log(curUser);
-    //   setUser(curUser);
-    // }
   };
 
   const handleSelectChange = (e, selectType) => {
