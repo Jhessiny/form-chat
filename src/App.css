@@ -259,14 +259,16 @@ div.error-msg + form {
 @media (max-width: 450px) {
   .chat-room {
     width: 90%;
+    max-height: 500px;
+    height: 90vh;
   }
   .box {
     width: 78%;
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 350px) {
   .box {
-    width: 75%;
+    width: 210px;
   }
 }
